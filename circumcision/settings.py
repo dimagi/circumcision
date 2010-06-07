@@ -74,7 +74,10 @@ TABS = [
 ]
 
 
-        
+PROJECT_NAME = "RapidSMS - Circumcision"
+PAGINATOR_OBJECTS_PER_PAGE = 20
+PAGINATOR_MAX_PAGE_LINKS = 5
+
 # Override the default log settings
 LOG_LEVEL = "DEBUG"
 LOG_FILE = "logs/rapidsms.route.log"
