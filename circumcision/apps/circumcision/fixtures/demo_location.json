@@ -1,0 +1,24 @@
+NOTICE: using default settings module 'circumcision.localsettings'
+[
+  {
+    "pk": 1, 
+    "model": "locations.locationtype", 
+    "fields": {
+      "exists_in": null, 
+      "plural": "demo sites", 
+      "slug": "demo-sites", 
+      "singular": "demo site"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Demo Site", 
+      "parent": null, 
+      "slug": "1"
+    }
+  }
+]

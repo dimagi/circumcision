@@ -4,13 +4,12 @@ Created on Apr 8, 2010
 @author: Drew Roos
 '''
 
-title = "Circumcision"
-tab_link = "/circumcision"
 
 incoming_tz = 'Africa/Nairobi'
-server_tz = 'America/New_York' #todo: should find a way to set this automatically;
-                               #actually not needed at all if scheduler were able to run off UTC
-                               #or an arbitrary timezone
+server_tz = 'America/New_York'  # todo: should find a way to set this automatically;
+                                # actually not needed at all if scheduler were able to run off UTC
+                                # or an arbitrary timezone
+                                # TODO: change this to honor the django setting
 
 notification_days = [1, 2, 3, 4, 5, 6, 7, 8, 14, 21, 28, 35, 41, 42]
 
@@ -19,8 +18,11 @@ itext = {
     'en': {
         'reg-keyword': 'register',
         'reg-success': 'You have been registered. You will receive your notifications at %s',
-        'cannot-parse': 'Did not understand; send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
+        'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
+        'language-unrecognized': 'Do not recognize language',
         'already-registered': 'You have already been registered. You registered on %s',
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
@@ -43,9 +45,12 @@ itext = {
     },
     "luo": {
         'reg-keyword': 'register',
-        'reg-success': 'You have been registered. You will receive your notifications at %s',
-        'cannot-parse': 'Did not understand; send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-success': '[luo] You have been registered. You will receive your notifications at %s',
+        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
+        'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
+        'language-unrecognized': 'Do not recognize language',
         'already-registered': 'You have already been registered. You registered on %s',
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
@@ -68,9 +73,12 @@ itext = {
     }, 
     "sw": {
         'reg-keyword': 'register',
-        'reg-success': 'You have been registered. You will receive your notifications at %s',
-        'cannot-parse': 'Did not understand; send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-success': '[sw] You have been registered. You will receive your notifications at %s',
+        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
+        'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
+        'language-unrecognized': 'Do not recognize language',
         'already-registered': 'You have already been registered. You registered on %s',
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
