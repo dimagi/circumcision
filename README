@@ -1,4 +1,6 @@
-This is the Mwana MNCH RapidSMS project for deployment in Zambia and Malawi.
+This is a Dimagi RapidSMS project for deployment of a Circumcision follow-up
+reminder system in Kenya.  
+
 When development settles down a bit, the rapidsms package can be bundled into
 a deb, rpm, .tar.gz (or whatever), and installed into site-packages. For now,
 it is a submodule.
