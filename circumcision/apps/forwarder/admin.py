@@ -2,6 +2,6 @@
 # vim: ai ts=4 sts=4 et sw=4
 
 from django.contrib import admin
-from forwarder.models import *
+from circumcision.apps.forwarder.models import ForwardLocation
 
 admin.site.register(ForwardLocation)

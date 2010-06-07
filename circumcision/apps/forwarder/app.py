@@ -18,7 +18,10 @@ class App (rapidsms.App):
     def handle (self, message):
         """Forward the messages to any configured URLs"""
         forward_urls = ForwardLocation.objects.filter(is_active=True)
+        
+        self.debug("Forwarder app catches %s" % message)
         for url in forward_urls:
+            
             formatted_url = url.url % {"message": urllib2.quote(message.text),
                                        "identity": urllib2.quote(message.peer) }
             response = urllib2.urlopen(formatted_url)
