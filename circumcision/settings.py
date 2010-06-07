@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     "rapidsms.contrib.ajax", 
     "rapidsms.contrib.httptester", 
     "rapidsms.contrib.handlers", 
-    "rapidsms.contrib.echo",
     "rapidsms.contrib.locations",
     "rapidsms.contrib.messagelog",
     "rapidsms.contrib.messaging",
@@ -33,8 +32,8 @@ INSTALLED_APPS = [
     "rapidsms.contrib.djangoadmin",
     "django.contrib.admin",
     
-    "circumcision.apps.help",
     "circumcision.apps.circumcision",
+    "circumcision.apps.forwarder",
     
     "rapidsms.contrib.default",
 ]
@@ -54,6 +53,8 @@ TEST_EXCLUDED_APPS = (
 
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
+TIME_ZONE = "EST"
+
 # TODO: make a better default response, include other apps, and maybe 
 # this dynamic?
 DEFAULT_RESPONSE = "Invalid Keyword. Valid keywords are JOIN, AGENT, CHECK, RESULT, SENT, ALL, CBA, BIRTH and CLINIC. Respond with any keyword or HELP for more information."
@@ -63,13 +64,11 @@ INSTALLED_BACKENDS = {
 }
 
 TABS = [
-    ('rapidsms.views.dashboard', 'Dashboard'),
+    ('circumcision.apps.circumcision.views.patient_list', 'Dashboard'),
     ('rapidsms.contrib.httptester.views.generate_identity', 'Message Tester'),
     ('rapidsms.contrib.locations.views.dashboard', 'Map'),
     ('rapidsms.contrib.messagelog.views.message_log', 'Message Log'),
     ('rapidsms.contrib.messaging.views.messaging', 'Messaging'),
-#    ('rapidsms.contrib.registration.views.registration', 'Registration'),
     ('rapidsms.contrib.scheduler.views.index', 'Event Scheduler'),
-#    ('circumcision.apps.supply.views.dashboard', 'Supplies'),
-    ('circumcision.apps.labresults.views.dashboard', 'Results160'),
+
 ]
