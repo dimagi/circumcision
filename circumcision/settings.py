@@ -57,7 +57,7 @@ TIME_ZONE = "EST"
 
 # TODO: make a better default response, include other apps, and maybe 
 # this dynamic?
-DEFAULT_RESPONSE = "Invalid Keyword. Valid keywords are JOIN, AGENT, CHECK, RESULT, SENT, ALL, CBA, BIRTH and CLINIC. Respond with any keyword or HELP for more information."
+DEFAULT_RESPONSE = "Sorry that was an invalid keyword."
 
 INSTALLED_BACKENDS = {
     "message_tester" : {"ENGINE": "rapidsms.backends.bucket" } 
