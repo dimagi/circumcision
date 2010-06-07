@@ -1,5 +1,7 @@
+.project
+.pydevproject
 *.pyc
 *.db
-mwana/localsettings.py
+circumcision/localsettings.py
 *~
-mwana/logs/*
+circumcision/logs/*
