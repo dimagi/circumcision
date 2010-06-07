@@ -72,3 +72,13 @@ TABS = [
     ('rapidsms.contrib.scheduler.views.index', 'Event Scheduler'),
 
 ]
+
+
+        
+# Override the default log settings
+LOG_LEVEL = "DEBUG"
+LOG_FILE = "logs/rapidsms.route.log"
+# DJANGO_LOG_FILE = "/var/log/rapidsms/rapidsms.django.log"
+LOG_FORMAT = "[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s"
+LOG_SIZE = 1000000 # in bytes
+LOG_BACKUPS = 256     # number of logs to keep around
