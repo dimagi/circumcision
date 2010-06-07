@@ -4,8 +4,8 @@ import logging
 from rapidsms.models import Connection
 from rapidsms.messages.outgoing import OutgoingMessage
 
-from mwana.apps.reminders import models as reminders
-from mwana import const
+from circumcision.apps.reminders import models as reminders
+from circumcision import const
 
 # In RapidSMS, message translation is done in OutgoingMessage, so no need
 # to attempt the real translation here.  Use _ so that makemessages finds
@@ -14,7 +14,7 @@ _ = lambda s: s
 
 NOTIFICATION_NUM_DAYS = 2 # send reminders 2 days before scheduled appointments
 
-logger = logging.getLogger('mwana.apps.reminders.tasks')
+logger = logging.getLogger('circumcision.apps.reminders.tasks')
 
 
 def send_appointment_reminder(patient, default_conn=None, pronouns=None):

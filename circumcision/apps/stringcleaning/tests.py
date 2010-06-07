@@ -1,7 +1,7 @@
 
-from mwana.apps.labresults.app import App as labresults_App
-from mwana.apps.stringcleaning.app import App as cleaning_App
-from mwana.apps.stringcleaning.inputcleaner import InputCleaner
+from circumcision.apps.labresults.app import App as labresults_App
+from circumcision.apps.stringcleaning.app import App as cleaning_App
+from circumcision.apps.stringcleaning.inputcleaner import InputCleaner
 
 from rapidsms.contrib.handlers.app import App as handler_app
 from rapidsms.tests.scripted import TestScript

@@ -5,9 +5,9 @@ import datetime
 from rapidsms.models import Contact
 from rapidsms.contrib.scheduler.models import EventSchedule, ALL
 
-from mwana.apps.contactsplus.models import ContactType
-from mwana.apps.reminders import models as reminders
-from mwana import const
+from circumcision.apps.contactsplus.models import ContactType
+from circumcision.apps.reminders import models as reminders
+from circumcision import const
 
 # In RapidSMS, message translation is done in OutgoingMessage, so no need
 # to attempt the real translation here.  Use _ so that ./manage.py makemessages
@@ -37,7 +37,7 @@ class App(rapidsms.App):
         Resets (removes and re-creates) the task in the scheduler app that is
         used to send notifications to CBAs.
         """
-        callback = 'mwana.apps.reminders.tasks.send_notifications'
+        callback = 'circumcision.apps.reminders.tasks.send_notifications'
         
         #remove existing schedule tasks; reschedule based on the current setting from config
         EventSchedule.objects.filter(callback=callback).delete()

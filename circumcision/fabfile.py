@@ -26,7 +26,7 @@ WRITABLE_MEDIA_DIRS = (
 # if you get errors checking out "master", you probably need to run
 # "git branch master" in the offending repository on the server
 COMMITS = (
-    ('mwana', 'master'),
+    ('circumcision', 'master'),
     ('rapidsms-core-dev', 'master'),
     ('rapidsms-contrib-apps-dev', 'master'),
 #    ('pygsm', 'master'),
@@ -34,14 +34,14 @@ COMMITS = (
     ('django-app-settings', '54935e8bcd155206ff4f296d8fa067006ba7bbda'),
 )
 DEST_DIRS = {
-    'mwana': '',
-    'rapidsms-core-dev': 'mwana/submodules/rapidsms',
-    'rapidsms-contrib-apps-dev': 'mwana/submodules/rapidsms/lib/rapidsms/contrib',
+    'circumcision': '',
+    'rapidsms-core-dev': 'circumcision/submodules/rapidsms',
+    'rapidsms-contrib-apps-dev': 'circumcision/submodules/rapidsms/lib/rapidsms/contrib',
 #    'pygsm': '',
-    'django-tables': 'mwana/submodules/rapidsms/submodules/django-tables',
-    'django-app-settings': 'mwana/submodules/rapidsms/submodules/django-app-settings',
+    'django-tables': 'circumcision/submodules/rapidsms/submodules/django-tables',
+    'django-app-settings': 'circumcision/submodules/rapidsms/submodules/django-app-settings',
 }
-env.project = 'mwana'
+env.project = 'circumcision'
 # remove -l from env.shell, "mesg n" in ~/.profile was causing issues
 # see Why do I sometimes see ``err: stdin: is not a tty``?
 # http://github.com/bitprophet/fabric/blob/master/FAQ
@@ -54,21 +54,21 @@ def setup_path():
 
 def dev():
     env.environment = 'dev'
-    env.hosts = ['mwana']
+    env.hosts = ['circumcision']
     env.user = 'deployer'
     env.root = '/home/deployer'
-    env.dbname = 'mwana_dev'
+    env.dbname = 'circumcision_dev'
     setup_path()
 
 
 def staging():
     env.environment = 'staging'
-    env.hosts = ['mwana']
+    env.hosts = ['circumcision']
     env.user = 'deployer'
     env.root = '/home/deployer'
-    env.dbname = 'mwana_staging'
+    env.dbname = 'circumcision_staging'
     env.repos = {
-        'mwana': '/home/projects/mwana',
+        'circumcision': '/home/projects/circumcision',
         'rapidsms-core-dev': '/home/projects/rapidsms-core-dev',
         'rapidsms-contrib-apps-dev': '/home/projects/rapidsms-contrib-apps-dev',
 #        'pygsm': '/home/projects/pygsm',
@@ -84,15 +84,15 @@ def production():
         utils.abort('Production deployment aborted.')
     env.environment = 'production'
     env.hosts = ['41.72.110.86:80']
-    env.user = 'mwana'
-    env.root = '/home/mwana'
-    env.dbname = 'mwana_production'
+    env.user = 'circumcision'
+    env.root = '/home/circumcision'
+    env.dbname = 'circumcision_production'
     env.repos = {
-        'mwana': 'git://github.com/mwana/mwana.git',
-        'rapidsms-core-dev': 'git://github.com/mwana/rapidsms-core-dev.git',
+        'circumcision': 'git://github.com/circumcision/circumcision.git',
+        'rapidsms-core-dev': 'git://github.com/circumcision/rapidsms-core-dev.git',
         'rapidsms-contrib-apps-dev':
-            'git://github.com/mwana/rapidsms-contrib-apps-dev.git',
-#       'pygsm': 'git://github.com/mwana/pygsm',
+            'git://github.com/circumcision/rapidsms-contrib-apps-dev.git',
+#       'pygsm': 'git://github.com/circumcision/pygsm',
         'django-tables': 'git://github.com/adammck/django-tables.git',
         'django-app-settings': 'git://github.com/adammck/django-app-settings.git',
     }
@@ -159,7 +159,7 @@ def touch():
     Forces a reload of the WSGI Django application in Apache by modifying
     the last-modified time on the wsgi file.
     """
-    run('touch %s' % PATH_SEP.join((env.path, 'mwana', 'apache', 'project.wsgi')))
+    run('touch %s' % PATH_SEP.join((env.path, 'circumcision', 'apache', 'project.wsgi')))
 
 
 def install_init_script():
@@ -167,40 +167,40 @@ def install_init_script():
     Installs the init script for the RapidSMS route script in the /etc/init.d
     directory for the first time and adds it to the default run levels so that
     it's started and stopped appropriately on boot/shutdown.  Requires sudo
-    permissions on /etc/init.d/mwana-route, e.g.:
+    permissions on /etc/init.d/circumcision-route, e.g.:
     
     deployer ALL=NOPASSWD: ALL    
     """
-    run('sudo touch /etc/init.d/mwana-route')
-    run('sudo chown %s /etc/init.d/mwana-route' % env.user)
-    run('sudo update-rc.d mwana-route defaults')
+    run('sudo touch /etc/init.d/circumcision-route')
+    run('sudo chown %s /etc/init.d/circumcision-route' % env.user)
+    run('sudo update-rc.d circumcision-route defaults')
     update_init_script()
 
 
 def update_init_script():
     """
     Updates the init script for the RapidSMS route script in the /etc/init.d
-    directory.  Requires that the file (/etc/init.d/mwana-route) already exists
+    directory.  Requires that the file (/etc/init.d/circumcision-route) already exists
     with write permissions for the deploying user.
     
     Run install_init_script before calling this method.
     """
-    put('scripts/mwana-route-init-script.sh', '/etc/init.d/mwana-route', 0755)
-    run("sudo sed -i 's/PROJECT_DIR=/PROJECT_DIR=%s/' /etc/init.d/mwana-route"
+    put('scripts/circumcision-route-init-script.sh', '/etc/init.d/circumcision-route', 0755)
+    run("sudo sed -i 's/PROJECT_DIR=/PROJECT_DIR=%s/' /etc/init.d/circumcision-route"
         % env.path.replace('/', '\/'))
-    run("sudo sed -i 's/USER=/USER=%s/' /etc/init.d/mwana-route"
+    run("sudo sed -i 's/USER=/USER=%s/' /etc/init.d/circumcision-route"
         % env.user)
 
 
 def restart_route():
     """
     Restarts the RapidSMS route process on the remote server.  Requires sudo
-    permissions on /etc/init.d/mwana-route, e.g.:
+    permissions on /etc/init.d/circumcision-route, e.g.:
     
     deployer ALL=NOPASSWD: ALL
     """
     # using run instead of sudo because sudo prompts for a password
-    run('sudo /etc/init.d/mwana-route restart')
+    run('sudo /etc/init.d/circumcision-route restart')
     # print out the top of the log file in case there are errors
     import time
     time.sleep(2)
@@ -211,7 +211,7 @@ def syncdb():
     """
     Runs ./manage.py syncdb on the remote server.
     """
-    run('%s/mwana/manage.py syncdb' % env.path)
+    run('%s/circumcision/manage.py syncdb' % env.path)
 
 
 def bootstrap():
@@ -221,6 +221,6 @@ def bootstrap():
     """
     install_init_script()
     clone_all()
-    put('localsettings.py.example', '%s/mwana/localsettings.py' % env.path)
+    put('localsettings.py.example', '%s/circumcision/localsettings.py' % env.path)
     pull_and_checkout_all()
     print '\nNow add your database settings to localsettings.py and run syncdb'

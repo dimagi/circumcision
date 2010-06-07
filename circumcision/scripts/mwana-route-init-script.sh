@@ -6,7 +6,7 @@ PROJECT_DIR=
 USER=
 
 stop() {
-        echo -n Stopping mwana route process...
+        echo -n Stopping circumcision route process...
         PID=`ps aux|grep "manage.py route"|grep -v grep|awk '{print $2}'`
         if [ -n $PID ]; then
                 kill $PID
@@ -17,8 +17,8 @@ stop() {
 start() {
         # unfortunately we don't know of a way to tell if the route process
         # started successfully
-        echo -n Starting mwana route process...
-        sudo -u $USER $PROJECT_DIR/mwana/manage.py route > $PROJECT_DIR/route.log 2>&1 &
+        echo -n Starting circumcision route process...
+        sudo -u $USER $PROJECT_DIR/circumcision/manage.py route > $PROJECT_DIR/route.log 2>&1 &
         echo done.
 }
 

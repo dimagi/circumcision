@@ -3,7 +3,7 @@ from django.contrib import admin
 from rapidsms.models import Contact
 from rapidsms.admin import ContactAdmin
 
-from mwana.apps.contactsplus import models as contactsplus
+from circumcision.apps.contactsplus import models as contactsplus
 
 admin.site.unregister(Contact)
 class ContactAdmin(ContactAdmin):

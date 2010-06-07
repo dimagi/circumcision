@@ -41,7 +41,7 @@ class RateLimitingSMTPHandler(logging.handlers.SMTPHandler):
         m.update(str(record.lineno))
         m.update(record.msg)
         m.update(record.levelname)
-        cache_key = 'mwana-log-' + m.hexdigest()
+        cache_key = 'circumcision-log-' + m.hexdigest()
         if not cache.get(cache_key):
             cache.set(cache_key, True, self.timeout)
             logging.handlers.SMTPHandler.emit(self, record)

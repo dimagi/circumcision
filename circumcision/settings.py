@@ -10,7 +10,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'mwana.middleware.LoginRequired',
+    'circumcision.middleware.LoginRequired',
 )
 
 INSTALLED_APPS = [
@@ -33,16 +33,8 @@ INSTALLED_APPS = [
     "rapidsms.contrib.djangoadmin",
     "django.contrib.admin",
     
-    "mwana.apps.stringcleaning",
-    "mwana.apps.contactsplus",
-    "mwana.apps.registration",
-    "mwana.apps.agents",
-    "mwana.apps.labresults",
-    "mwana.apps.reminders",
-    "mwana.apps.location_importer",
-#    "mwana.apps.supply",
-    "mwana.apps.broadcast",
-    "mwana.apps.help",
+    "circumcision.apps.help",
+    "circumcision.apps.circumcision",
     
     "rapidsms.contrib.default",
 ]
@@ -78,6 +70,6 @@ TABS = [
     ('rapidsms.contrib.messaging.views.messaging', 'Messaging'),
 #    ('rapidsms.contrib.registration.views.registration', 'Registration'),
     ('rapidsms.contrib.scheduler.views.index', 'Event Scheduler'),
-#    ('mwana.apps.supply.views.dashboard', 'Supplies'),
-    ('mwana.apps.labresults.views.dashboard', 'Results160'),
+#    ('circumcision.apps.supply.views.dashboard', 'Supplies'),
+    ('circumcision.apps.labresults.views.dashboard', 'Results160'),
 ]

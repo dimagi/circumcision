@@ -4,7 +4,7 @@ import sys, os
 from django.core.management import execute_manager
 
 # use a default settings module if none was specified on the command line
-DEFAULT_SETTINGS = 'mwana.localsettings'
+DEFAULT_SETTINGS = 'circumcision.localsettings'
 settings_specified = any([arg.startswith('--settings=') for arg in sys.argv])
 if not settings_specified and len(sys.argv) >= 2:
     print "NOTICE: using default settings module '%s'" % DEFAULT_SETTINGS
@@ -19,12 +19,12 @@ this project.
 
 if __name__ == "__main__":
     # remove '.' from sys.path (anything in this package should be referenced
-    # with the 'mwana.' prefix)
+    # with the 'circumcision.' prefix)
     sys.path.pop(0)
 
     project_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
     
-    rapidsms_root = os.path.join(project_root, "mwana", "submodules", "rapidsms")
+    rapidsms_root = os.path.join(project_root, "circumcision", "submodules", "rapidsms")
     rapidsms_lib = os.path.join(rapidsms_root, "lib")
     django_settings_root = os.path.join(rapidsms_root, "submodules", "django-app-settings")
     django_tables_root = os.path.join(rapidsms_root, "submodules", "django-tables")
@@ -32,5 +32,5 @@ if __name__ == "__main__":
     for dir in [django_settings_root, django_tables_root, rapidsms_lib, project_root]:
         sys.path.insert(0, dir)
     
-    from mwana import settings
+    from circumcision import settings
     execute_manager(settings)

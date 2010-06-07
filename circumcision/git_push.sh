@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# update mwana
+# update circumcision
 git push $1 master
 
 # update rapidsms-core-dev

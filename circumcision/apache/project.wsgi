@@ -10,11 +10,11 @@ ADMIN_IPS = ('127.0.0.1',)
 UPGRADE_FILE = os.path.join(PROJECT_ROOT, 'media', 'html', 'upgrade.html')
 ERROR_FILE = os.path.join(PROJECT_ROOT, 'media', 'html', 'server_error.html')
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mwana.localsettings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'circumcision.localsettings'
 os.environ['PYTHON_EGG_CACHE'] = '/var/data/.python_eggs'
 
 try:
-    rapidsms_root = os.path.join(PROJECT_ROOT, "mwana", "submodules", "rapidsms")
+    rapidsms_root = os.path.join(PROJECT_ROOT, "circumcision", "submodules", "rapidsms")
     rapidsms_lib = os.path.join(rapidsms_root, "lib")
     django_settings_root = os.path.join(rapidsms_root, "submodules", "django-app-settings")
     django_tables_root = os.path.join(rapidsms_root, "submodules", "django-tables")
@@ -22,8 +22,8 @@ try:
     for dir in [django_settings_root, django_tables_root, rapidsms_lib, PROJECT_ROOT]:
         sys.path.insert(0, dir)
     
-    from mwana import localsettings as settings
-    from mwana.logconfig import init_file_logging
+    from circumcision import localsettings as settings
+    from circumcision.logconfig import init_file_logging
     init_file_logging(settings.DJANGO_LOG_FILE, settings.LOG_SIZE,
                       settings.LOG_BACKUPS, settings.LOG_LEVEL,
                       settings.LOG_FORMAT)

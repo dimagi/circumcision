@@ -1,6 +1,6 @@
 from rapidsms.contrib.handlers import KeywordHandler
 from rapidsms.models import Contact
-from mwana.apps.help.models import HelpRequest
+from circumcision.apps.help.models import HelpRequest
 from rapidsms.messages.outgoing import OutgoingMessage
 
 RESPONSE           = "Sorry you're having trouble%(person)s. Your help request has been forwarded to a support team member and they will call you soon."

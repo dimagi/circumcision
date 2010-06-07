@@ -1,4 +1,4 @@
-from mwana.apps.contactsplus.models import ContactType
+from circumcision.apps.contactsplus.models import ContactType
 from rapidsms.contrib.locations.models import LocationType
 
 # contact types:
@@ -12,7 +12,7 @@ CLINIC_SLUGS = ('urban_health_centre', '1st_level_hospital',
 ZONE_SLUG = 'zone'
 
 # apps
-LAB_RESULTS_APP = "mwana.apps.labresults"
+LAB_RESULTS_APP = "circumcision.apps.labresults"
 
 def _get_contacttype(slug, name):
     try:

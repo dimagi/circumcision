@@ -1,5 +1,5 @@
 from rapidsms.contrib.locations.models import LocationType
-from mwana.const import get_zone_type
+from circumcision.const import get_zone_type
 
 def get_clinic_or_default(contact):
     """Gets a clinic associated with the contact"""

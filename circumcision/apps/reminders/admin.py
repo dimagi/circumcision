@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.db import models
 
-from mwana.apps.reminders import models as reminders
+from circumcision.apps.reminders import models as reminders
 
 
 class AppointmentInline(admin.TabularInline):

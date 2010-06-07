@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.db import models
 
-from mwana.apps.help import models as help
+from circumcision.apps.help import models as help
 
 
 class HelpRequestAdmin(admin.ModelAdmin):

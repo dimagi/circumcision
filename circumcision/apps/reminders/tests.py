@@ -6,11 +6,11 @@ from rapidsms.models import Contact, Connection
 from rapidsms.tests.scripted import TestScript
 from rapidsms.contrib.locations.models import Location, LocationType
 
-from mwana.apps.contactsplus.models import ContactType
-from mwana.apps.reminders.app import App
-from mwana.apps.reminders import models as reminders
-from mwana.apps.reminders import tasks
-from mwana import const
+from circumcision.apps.contactsplus.models import ContactType
+from circumcision.apps.reminders.app import App
+from circumcision.apps.reminders import models as reminders
+from circumcision.apps.reminders import tasks
+from circumcision import const
 
 
 class EventRegistration(TestScript):
@@ -114,7 +114,7 @@ class EventRegistration(TestScript):
     def testCorrectMessageWithManyKeywords(self):
         self._register()
         reminders.Event.objects.create(name="Birth", gender="f",
-                                       slug="birth|bith|bilth|mwana")
+                                       slug="birth|bith|bilth|circumcision")
         script = """
             kk     > bIrth 4/3/2010 maria
             kk     < Thank you Rupiah Banda! You have successfully registered a birth for maria on 04/03/2010. You will be notified when it is time for her next appointment at the clinic.
@@ -122,7 +122,7 @@ class EventRegistration(TestScript):
             kk     < Thank you Rupiah Banda! You have successfully registered a birth for anna on 04/03/2010. You will be notified when it is time for her next appointment at the clinic.
             kk     > BILTH 4/3/2010 laura
             kk     < Thank you Rupiah Banda! You have successfully registered a birth for laura on 04/03/2010. You will be notified when it is time for her next appointment at the clinic.
-            kk     > mwaNA 4/3/2010 lynn
+            kk     > circumcision 4/3/2010 lynn
             kk     < Thank you Rupiah Banda! You have successfully registered a birth for lynn on 04/03/2010. You will be notified when it is time for her next appointment at the clinic.
             kk     > unknownevent 4/3/2010 lynn
         """
