@@ -5,13 +5,12 @@ Created on Mar 31, 2010
 '''
 
 import rapidsms
-import logging
-from circumcision.models import *
-import circumcision.config as config
-from scheduler.models import set_daily_event, EventSchedule
+from circumcision.apps.circumcision.models import Registration, SentNotif
+import circumcision.apps.circumcision.config as config
+from rapidsms.contrib.scheduler.models import EventSchedule
 from datetime import datetime, timedelta, time
 import pytz
-import messaging.app
+from rapidsms.contrib.messaging.utils import send_message
 
 def text (key, lang):
     """return a localized text string for a given text key and language code"""
@@ -31,7 +30,7 @@ def split_contact_time (minutes_since_midnight):
     m = int(minutes_since_midnight)
     return (m / 60, m % 60)
 
-class App (rapidsms.app.App):
+class App (rapidsms.App):
 
     def start (self):
         """Configure your app in the start phase."""
@@ -45,9 +44,9 @@ class App (rapidsms.app.App):
         try:
             (patient_id, contact_time, lang) = self.parse_message(message)
         except ValueError, response:
-            message.respond(response)
+            message.respond(str(response))
             return True
-        connection = message.persistant_connection
+        connection = message.connection
         
         reg = Registration(patient_id=patient_id, contact_time=contact_time, connection=connection, language=lang)
         reg.save()
@@ -82,7 +81,7 @@ class App (rapidsms.app.App):
         
         #check if phone number has already been registered
         try:
-            Registration.objects.get(connection=message.persistant_connection)
+            Registration.objects.get(connection=message.connection)
             phone_already_registered = True
         except Registration.DoesNotExist:
             phone_already_registered = False
@@ -185,7 +184,7 @@ class App (rapidsms.app.App):
 def send_notification (router, patient_id, day, lang):
     """send the notification for day N"""
     reg = Registration.objects.get(patient_id=patient_id)
-    router.get_app('messaging')._send_message(reg.connection, get_notification(day, lang))
+    send_message(reg.connection, get_notification(day, lang))
     #check for success?
     
     log = SentNotif(patient_id=reg, day=day)

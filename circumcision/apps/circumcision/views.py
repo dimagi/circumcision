@@ -4,15 +4,14 @@ Created on Mar 31, 2010
 @author: Drew Roos
 '''
 
-from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-from rapidsms.webui.utils import paginated, render_to_response
-from circumcision.models import *
-from circumcision.app import split_contact_time
-import circumcision.config as config
+from rapidsms.utils import render_to_response
+from circumcision.apps.circumcision.models import Registration, SentNotif
+from circumcision.apps.circumcision.app import split_contact_time
+import circumcision.apps.circumcision.config as config
 from datetime import date
 from django.forms import ModelForm, HiddenInput
+from rapidsms.utils import paginated
 
 def patient_list (request):
 

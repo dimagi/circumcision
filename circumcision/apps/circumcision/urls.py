@@ -4,7 +4,7 @@ Created on Mar 31, 2010
 @author: Drew Roos
 '''
 
-import circumcision.views as views
+import circumcision.apps.circumcision.views as views
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',

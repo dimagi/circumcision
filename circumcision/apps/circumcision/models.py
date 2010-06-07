@@ -5,12 +5,12 @@ Created on Mar 31, 2010
 '''
 
 from django.db import models
-from reporters.models import PersistantConnection
+from rapidsms.models import Connection
 
 class Registration(models.Model):
     patient_id = models.CharField(max_length=20, primary_key=True)
     contact_time = models.IntegerField()
-    connection = models.ForeignKey(PersistantConnection, unique=True)
+    connection = models.ForeignKey(Connection, unique=True)
     registered_on = models.DateField(auto_now_add=True)
     language = models.CharField(max_length=20)
     
