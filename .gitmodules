@@ -1,0 +1,3 @@
+[submodule "circumcision/submodules/rapidsms"]
+	path = circumcision/submodules/rapidsms
+	url = git://github.com/dimagi/rapidsms-core-dev.git
