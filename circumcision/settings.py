@@ -85,3 +85,6 @@ LOG_FILE = "logs/rapidsms.route.log"
 LOG_FORMAT = "[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s"
 LOG_SIZE = 1000000 # in bytes
 LOG_BACKUPS = 256     # number of logs to keep around
+
+
+FORWARDER_DELETE_FROM_MESSAGE_LOG = True

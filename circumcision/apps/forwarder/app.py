@@ -1,7 +1,7 @@
 import urllib2
 
 import rapidsms
-
+from django.conf import settings
 from circumcision.apps.forwarder.models import ForwardLocation
 
 class App (rapidsms.App):
@@ -27,7 +27,11 @@ class App (rapidsms.App):
             response = urllib2.urlopen(formatted_url)
             if url.should_respond:
                 message.respond(response.read())
-            
+        
+        if forward_urls.count() > 0 and \
+           settings.FORWARDER_DELETE_FROM_MESSAGE_LOG and hasattr(message, "logger_msg"):
+            self.debug("Forwarder app deleting message log: %s" % message.logger_msg)
+            message.logger_msg.delete()
             
 
     
