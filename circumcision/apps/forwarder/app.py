@@ -18,6 +18,7 @@ class App (rapidsms.App):
     def handle (self, message):
         """Forward the messages to any configured URLs"""
         forward_urls = ForwardLocation.objects.filter(is_active=True)
+        forwarded = forward_urls.count() > 0
         
         self.debug("Forwarder app catches %s" % message)
         for url in forward_urls:
@@ -28,10 +29,13 @@ class App (rapidsms.App):
             if url.should_respond:
                 message.respond(response.read())
         
-        if forward_urls.count() > 0 and \
+        if forwarded and \
            settings.FORWARDER_DELETE_FROM_MESSAGE_LOG and hasattr(message, "logger_msg"):
             self.debug("Forwarder app deleting message log: %s" % message.logger_msg)
             message.logger_msg.delete()
-            
+        
+        if forwarded:
+            return True
+        
 
     
