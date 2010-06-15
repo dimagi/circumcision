@@ -33,21 +33,14 @@ def patient_list (request):
     
     sent = {}
     for s in sentlog:
-        patid = s.patient_id
-        day = s.day
-        
-        if patid not in sent:
-            sent[patid] = set()
-        days = sent[patid]
-        days.add(day)
+        if s.patient not in sent:
+            sent[s.patient] = set()
+        days = sent[s.patient]
+        days.add(s.day)
     
     for r in regs:
-        days = sent[r.patient_id] if r.patient_id in sent else set()
-        dayslist = []
-        for i in config.notification_days:
-            dayslist.append(i in days)
-        
-        r.notifications = dayslist
+        days = sent[r] if r in sent else set()
+        r.notifications = [(i in days) for i in config.notification_days]
         r.post_op = (date.today() - r.registered_on).days
     
     return render_to_response(request, 'circumcision/overview.html',
