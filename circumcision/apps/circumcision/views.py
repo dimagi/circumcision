@@ -58,7 +58,7 @@ def patient_update (request, patid):
     form = PatientForm(instance=patient)
     
     sent = SentNotif.objects.filter(patient_id=patient)
-    patient.notifications = ', '.join(sorted([s.day for s in sent])) if len(sent) > 0 else 'none sent yet'
+    patient.notifications = ', '.join(str(d) for d in sorted([s.day for s in sent])) if len(sent) > 0 else 'none sent yet'
     patient.post_op = (date.today() - patient.registered_on).days
     patient.contact_time = '%02d:%02d' % split_contact_time(patient.contact_time)
     
