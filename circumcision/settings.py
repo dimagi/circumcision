@@ -53,7 +53,7 @@ TEST_EXCLUDED_APPS = (
 
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
-TIME_ZONE = "EST"
+TIME_ZONE = None  #use default OS time zone -- messages send out at the wrong time otherwise
 
 # TODO: make a better default response, include other apps, and maybe 
 # this dynamic?
