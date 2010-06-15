@@ -36,10 +36,10 @@
                 <td>{{ px.registered_on }}</td>
                 <td>{{ px.connection.identity }}</td>
                 {% for dn in px.notifications %}
-                <td>{% if dn %}Y{% else %}n{% endif %}</td>
+                <td>{% if dn %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
                 {% endfor %}
-                <td>{% if px.followup_visit %}Y{% else %}n{% endif %}</td>
-                <td>{% if px.final_visit %}Y{% else %}n{% endif %}</td>
+                <td>{% if px.followup_visit %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
+                <td>{% if px.final_visit %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
 			</tr>{% endfor %}{% else %}
 			<tr class="no-data">
 				<td colspan="{{ days|length|add:"6" }}">No patients registered</td>
