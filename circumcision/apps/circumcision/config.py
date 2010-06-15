@@ -9,7 +9,7 @@ incoming_tz = 'Africa/Nairobi'
 server_tz = 'America/New_York'  # todo: should find a way to set this automatically;
                                 # actually not needed at all if scheduler were able to run off UTC
                                 # or an arbitrary timezone
-                                # TODO: change this to honor the django setting
+                                # note: the django setting will conflict with this; set django time zone to 'None'
 
 notification_days = [1, 2, 3, 4, 5, 6, 7, 8, 14, 21, 28, 35, 41, 42]
 
