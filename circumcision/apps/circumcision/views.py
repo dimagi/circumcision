@@ -33,9 +33,9 @@ def patient_list (request):
     
     sent = {}
     for s in sentlog:
-        if s.patient not in sent:
-            sent[s.patient] = set()
-        days = sent[s.patient]
+        if s.patient_id not in sent:
+            sent[s.patient_id] = set()
+        days = sent[s.patient_id]
         days.add(s.day)
     
     for r in regs:
