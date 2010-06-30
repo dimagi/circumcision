@@ -72,6 +72,7 @@ def to_csv (f):
     def csvbool (b):
         return 'X' if b else ''
 
+    #note: escaping text in this way (to preserve leading zeros) only works when viewing in excel
     def csvtext (s):
         return '="%s"' % s
 
