@@ -49,6 +49,7 @@ def send_email (send_config, to, subj, mime_body):
 """
 to schedule from django shell:
 
+from rapidsms.contrib.scheduler.models import EventSchedule
 EventSchedule(callback='circumcision.apps.circumcision.emailutil.email_report',
               hours='17', minutes='0',
               callback_args=['address1@email.com, address2@email.com, address3@email.com']).save()
