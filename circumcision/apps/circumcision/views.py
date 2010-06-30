@@ -73,8 +73,7 @@ def to_csv (f):
         return 'X' if b else ''
 
     def csvtext (s):
-        return "'" + s
-#        return '="%s"' % s
+        return '="%s"' % s
 
     writer = csv.writer(f)
     writer.writerow(headers)
