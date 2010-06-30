@@ -72,10 +72,14 @@ def to_csv (f):
     def csvbool (b):
         return 'X' if b else ''
 
+    def csvtext (s):
+        return "'" + s
+#        return '="%s"' % s
+
     writer = csv.writer(f)
     writer.writerow(headers)
     for r in regs:
-        line = list(itertools.chain([r.patient_id, r.post_op, r.registered_on.strftime('%Y-%m-%d'), r.connection.identity],
+        line = list(itertools.chain([csvtext(r.patient_id), r.post_op, r.registered_on.strftime('%Y-%m-%d'), csvtext(r.connection.identity)],
                                     [csvbool(n) for n in r.notifications],
                                     [csvbool(r.followup_visit), csvbool(r.final_visit)]))
         writer.writerow(line)
