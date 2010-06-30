@@ -78,7 +78,7 @@ def to_csv (f):
         line = list(itertools.chain([r.patient_id, r.post_op, r.registered_on.strftime('%Y-%m-%d'), r.connection.identity],
                                     [csvbool(n) for n in r.notifications],
                                     [csvbool(r.followup_visit), csvbool(r.final_visit)]))
-    writer.writerow(line)
+        writer.writerow(line)
 
 def load_patients ():
     regs = Registration.objects.all().order_by('-registered_on')
