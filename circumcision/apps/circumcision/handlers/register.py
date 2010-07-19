@@ -26,7 +26,7 @@ class RegistrationHandler(KeywordHandler):
         except ValueError, response:
             self.msg.respond(str(response))
             return True
-    
+        
         reg = Registration(patient_id=patient_id, contact_time=contact_time, 
                            connection=patient_conn, location=location, 
                            language=lang)
@@ -75,7 +75,11 @@ def parse_message_pieces (conn_recvd_from, site_id, patient_id, patient_phone_st
         phone = parse_phone(patient_phone_str)
         if phone == None:
             raise ValueError(get_text('cannot-parse-phone', lang))
-        patient_conn = Connection(backend=conn_recvd_from.backend, identity=phone)
+        try:
+            patient_conn = Connection.objects.get(backend=conn_recvd_from.backend, identity=phone)
+        except Connection.DoesNotExist:
+            patient_conn = Connection(backend=conn_recvd_from.backend, identity=phone)
+            patient_conn.save()
     else:
         patient_conn = conn_recvd_from
 
@@ -155,7 +159,7 @@ def parse_phone (sphone):
     elif len(sphone) == 12 and sphone.startswith(config.country_code):
         phone = '0' + sphone[3:]
 
-    if not re.match('^[0-9]{10}$', phone):
+    if phone and not re.match('^[0-9]{10}$', phone):
         phone = None
 
     if phone and config.backend_phone_format == 'intl':
