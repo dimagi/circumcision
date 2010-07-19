@@ -1,11 +1,14 @@
 import circumcision.apps.circumcision.config as config
 
-def get_text (key, lang):
+def get_text (key, lang, default_fallback=True):
     """return a localized text string for a given text key and language code"""
     if lang not in config.itext:
         raise ValueError('no language [%s] defined' % lang)
     elif key not in config.itext[lang]:
-        raise ValueError('no translation for key [%s] in language [%s]' % (key, lang))
+        if default_fallback and lang != config.default_language:
+            return get_text(key, config.default_language)
+        else:
+            raise ValueError('no translation for key [%s] in language [%s]' % (key, lang))
     else:
         return config.itext[lang][key]
 
