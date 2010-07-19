@@ -67,7 +67,7 @@ def to_csv (f):
 
     headers = list(itertools.chain(['Patient ID', 'Site', 'Days Post-op', 'Registered on', 'Phone #'],
                                    ['Day %d' % i for i in config.notification_days],
-                                   ['Follow-up Visit', 'Final Visit']))
+                                   ['Follow-up Visit', 'Final Visit', 'Status']))
 
     def csvbool (b):
         return 'X' if b else ''
@@ -79,9 +79,11 @@ def to_csv (f):
     writer = csv.writer(f)
     writer.writerow(headers)
     for r in regs:
+        status_txt = {'late-final': 'Late for final', 'late-followup': 'Late for follow-up'}[r.status] if r.status else None
+
         line = list(itertools.chain([csvtext(r.patient_id), r.site, r.post_op, r.registered_on.strftime('%Y-%m-%d'), csvtext(r.connection.identity)],
                                     [csvbool(n) for n in r.notifications],
-                                    [csvbool(r.followup_visit), csvbool(r.final_visit)]))
+                                    [csvbool(r.followup_visit), csvbool(r.final_visit), status_txt]))
         writer.writerow(line)
 
 def load_patients ():
@@ -108,9 +110,11 @@ def annotate_patient (p):
     p.contact_time = '%02d:%02d' % split_contact_time(p.contact_time)
     p.site = '%d-%s' % (p.location.id, p.location.name)
 
-    if p.post_op > 42 and not p.final_visit:
+    p.late_final = p.post_op > 42 and not p.final_visit
+    p.late_fu = p.post_op > 7 and not p.followup_visit
+    if p.late_final:
         p.status = 'late-final'
-    elif p.post_op > 7 and not p.followup_visit:
+    elif p.late_fu:
         p.status = 'late-followup'
     else:
         p.status = None
