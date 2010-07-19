@@ -23,7 +23,7 @@ def email_report (router, recipients):
     buff = StringIO()
     to_csv(buff)
     attachment = MIMEText(buff.getvalue(), 'csv')
-    attachment['Content-Disposition'] = 'attachment; filename="%s"' % 'report.csv'
+    attachment['Content-Disposition'] = 'attachment; filename="%s"' % ('report_%s.csv' % datetime.now().strftime('%Y_%m_%d'))
     msg.attach(attachment)
     buff.close()
 

@@ -16,6 +16,7 @@
 		<thead>
 			<tr>
 				<th scope="col" rowspan="2" valign="bottom">Patient ID</th>
+				<th scope="col" rowspan="2" valign="bottom">Site</th>
 				<th scope="col" rowspan="2" valign="bottom">Days Post-Op</th>
 				<th scope="col" rowspan="2" valign="bottom">Registered on</th>
 				<th scope="col" rowspan="2" valign="bottom">Phone</th>
@@ -30,8 +31,9 @@
 			</tr>
 		</thead>
 		<tbody>{% if patients.object_list %}{% for px in patients.object_list %}
-			<tr>
+			<tr {% if px.status %}style="background-color: {% ifequal px.status 'late-final'%}#fbb{% else %}#fdd{% endifequal %};"{% endif %}>
 				<td><a href="/circumcision/patient/{{ px.patient_id }}">{{ px.patient_id }}</a></td>
+                <td style="white-space: nowrap;" >{{ px.site }}</td>
                 <td>{{ px.post_op }}</td>
                 <td>{{ px.registered_on }}</td>
                 <td>{{ px.connection.identity }}</td>

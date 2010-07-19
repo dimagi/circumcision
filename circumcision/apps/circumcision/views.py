@@ -15,6 +15,7 @@ from django.forms import ModelForm, HiddenInput
 from rapidsms.utils import paginated
 import csv
 import itertools
+from datetime import datetime
 
 def patient_list (request):
 
@@ -41,9 +42,8 @@ def patient_update (request, patid):
     
     sent = SentNotif.objects.filter(patient_id=patient)
     patient.notifications = ', '.join(str(d) for d in sorted([s.day for s in sent])) if len(sent) > 0 else 'none sent yet'
-    patient.post_op = (date.today() - patient.registered_on).days
-    patient.contact_time = '%02d:%02d' % split_contact_time(patient.contact_time)
-    
+    annotate_patient(patient)
+
     return render_to_response(request, 'circumcision/patient.html',
             {'px': patient, 'pat_form': form})
     
@@ -58,14 +58,14 @@ class PatientForm(ModelForm):
 
 def export (request):
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=circumcision_patients.csv'
+    response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
     to_csv(response)
     return response
 
 def to_csv (f):
     regs = load_patients()    
 
-    headers = list(itertools.chain(['Patient ID', 'Days Post-op', 'Registered on', 'Phone #'],
+    headers = list(itertools.chain(['Patient ID', 'Site', 'Days Post-op', 'Registered on', 'Phone #'],
                                    ['Day %d' % i for i in config.notification_days],
                                    ['Follow-up Visit', 'Final Visit']))
 
@@ -79,7 +79,7 @@ def to_csv (f):
     writer = csv.writer(f)
     writer.writerow(headers)
     for r in regs:
-        line = list(itertools.chain([csvtext(r.patient_id), r.post_op, r.registered_on.strftime('%Y-%m-%d'), csvtext(r.connection.identity)],
+        line = list(itertools.chain([csvtext(r.patient_id), r.site, r.post_op, r.registered_on.strftime('%Y-%m-%d'), csvtext(r.connection.identity)],
                                     [csvbool(n) for n in r.notifications],
                                     [csvbool(r.followup_visit), csvbool(r.final_visit)]))
         writer.writerow(line)
@@ -98,7 +98,21 @@ def load_patients ():
     for r in regs:
         days = sent[r] if r in sent else set()
         r.notifications = [(i in days) for i in config.notification_days]
-        r.post_op = (date.today() - r.registered_on).days
+        
+        annotate_patient(r)
 
     return regs
+
+def annotate_patient (p):
+    p.post_op = (date.today() - p.registered_on).days
+    p.contact_time = '%02d:%02d' % split_contact_time(p.contact_time)
+    p.site = '%d-%s' % (p.location.id, p.location.name)
+
+    if p.post_op > 42 and not p.final_visit:
+        p.status = 'late-final'
+    elif p.post_op > 7 and not p.followup_visit:
+        p.status = 'late-followup'
+    else:
+        p.status = None
+
 
