@@ -13,12 +13,18 @@ server_tz = 'America/New_York'  # todo: should find a way to set this automatica
 
 notification_days = [1, 2, 3, 4, 5, 6, 7, 8, 14, 21, 28, 35, 41, 42]
 
+service_number = '0722819835'
+
+country_code = '254'
+backend_phone_format = 'intl'
+
 default_language = 'en'
 itext = {
     'en': {
         'reg-keyword': 'register',
+        'enroll-keyword': 'enroll',
         'reg-success': 'You have been registered. You will receive your notifications at %s',
-        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-help': 'To register, send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
@@ -27,7 +33,8 @@ itext = {
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
         'cannot-parse-time': 'Did not understand contact time; send as HHMM, i.e., 0600 for 6 AM or 2030 for 8:30 PM',
-        'intro' : 'If u r not the intended recipient of this Male Circumcision (MC) message, please text STOP to 0722819835 and you will not receive future messages. Thank you.',
+        'cannot-parse-phone': 'Could not understand phone number; enter as 0XXXXXXXXX or +254XXXXXXXXX, no dashes or spaces',
+        'intro' : 'If u r not the intended recipient of this Male Circumcision (MC) message, please text STOP to %s and you will not receive future messages. Thank you.' % service_number,
         'notif1' : 'This is your MC provider. It is normal to feel a bit of pain and swelling, but if there is severe swelling, bleeding or pain please come back to the clinic. ',
         'notif2' : 'This is your MC provider. Remember do not allow water to soak the dressing before removal on the 3rd day.  ',
         'notif3' : 'Remove the dressing today. Make sure you review the post-op instructions and use the blade provided. Throw away the blade after use.',
@@ -45,8 +52,9 @@ itext = {
     },
     "luo": {
         'reg-keyword': 'register',
+        'enroll-keyword': 'enroll',
         'reg-success': '[luo] You have been registered. You will receive your notifications at %s',
-        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-help': 'To register, send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
@@ -55,7 +63,8 @@ itext = {
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
         'cannot-parse-time': 'Did not understand contact time; send as HHMM, i.e., 0600 for 6 AM or 2030 for 8:30 PM',
-        'intro' : "Ka okin nga't monego yudi mesej mar nyange ni wakwai mondo i or STOP ir namba ni 0722819835 asto ok ibi yudo mesej ni kendo. Ero kamano",
+        'cannot-parse-phone': 'Could not understand phone number; enter as 0XXXXXXXXX or +254XXXXXXXXX, no dashes or spaces',
+        'intro' : "Ka okin nga't monego yudi mesej mar nyange ni wakwai mondo i or STOP ir namba ni %s asto ok ibi yudo mesej ni kendo. Ero kamano" % service_number,
         'notif1' : "ma en joma ne oteri nyange.Winjorem kata kuot matin nyakabedi, to kanitie kuot maokalo,chwer mar remo mang'eny kata rem mathoth to mondo iduog e kar thieth ka",
         'notif2' : 'par ni kik iwe pi donj e bandej.Kapok igole e odiochieng mar adek',
         'notif3' : "Gol bandej kawuono.Ne ni isomo yore mag rito kama ong'adi kendo iti kod wembe mane omiyi.I wit wembe bang tiyogo",
@@ -73,8 +82,9 @@ itext = {
     }, 
     "sw": {
         'reg-keyword': 'register',
+        'enroll-keyword': 'enroll',
         'reg-success': '[sw] You have been registered. You will receive your notifications at %s',
-        'reg-help': 'To register, send message as: register [patient id] [desired contact time (HHMM)]',
+        'reg-help': 'To register, send message as: register [site id] [patient id] [desired contact time (HHMM)]',
         'cannot-parse': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'site-unrecognized': 'Do not recognize site ID',
         'patid-unrecognized': 'Do not recognize patient ID',
@@ -83,7 +93,8 @@ itext = {
         'phone-already-registered': 'This patient ID has already been registered on another phone',
         'patid-already-registered': 'This phone has already been registered for another patient',
         'cannot-parse-time': 'Did not understand contact time; send as HHMM, i.e., 0600 for 6 AM or 2030 for 8:30 PM',
-        'intro' : 'Kama wewe sio mwenye kupokea ujumbe huu wa kupashwa tohara tafadhali tuma ujumbe  STOP kwa 0722819835 na hautapata ujumbe huu tena. Asante',
+        'cannot-parse-phone': 'Could not understand phone number; enter as 0XXXXXXXXX or +254XXXXXXXXX, no dashes or spaces',
+        'intro' : 'Kama wewe sio mwenye kupokea ujumbe huu wa kupashwa tohara tafadhali tuma ujumbe STOP kwa %s na hautapata ujumbe huu tena. Asante' % service_number,
         'notif1' : 'Huyu ni yule aliyekutoza tohara.  Ni kawaida kusikia uchungu kidogo na uvimbe lakini kama kuna uvumbe zaidi kutoka damu au uchungu tafadhali rudi katika kliniki',
         'notif2' : 'Huyu ni yule aliyekutoza tohara. Kumbuka kutowacha maji kulowa alfafa kabla ya kuitoa siku ya tatu',
         'notif3' : 'Toa alfafa leo.  Hakikisha kurudia maelezo uliyopewa baada ya kutahiriwa na tumia uwembe uliyopewa. Tupa wembe baada ya kutumia.',
