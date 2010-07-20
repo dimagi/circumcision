@@ -32,34 +32,42 @@ class RegistrationHandler(KeywordHandler):
                            language=lang)
         reg.save()
     
-        schedule_notifications(reg, self.msg.date)
-    
-        send_message(patient_conn, get_text('reg-success', lang) % ('%02d:%02d' % split_contact_time(contact_time)))
+        if contact_time != None: #signed up to receive notifications
+            schedule_notifications(reg, self.msg.date)
+            send_message(patient_conn, get_text('reg-success', lang) % ('%02d:%02d' % split_contact_time(contact_time)))
+        else:
+            self.msg.respond(get_text('rec-success', lang) % patient_id)
+
         return True
 
 def parse_message (text, conn):
     pieces = text.split()
 
     if len(pieces) == 5 and pieces[0] == get_text('reg-keyword', config.default_language):
-        return parse_message_pieces(conn, pieces[1], pieces[2], None, pieces[3], pieces[4])
+        return parse_message_pieces(conn, True, pieces[1], pieces[2], None, pieces[3], pieces[4])
     elif len(pieces) == 6 and pieces[0] == get_text('enroll-keyword', config.default_language):
-        return parse_message_pieces(conn, pieces[1], pieces[2], pieces[3], pieces[4], pieces[5])
+        return parse_message_pieces(conn, True, pieces[1], pieces[2], pieces[3], pieces[4], pieces[5])
+    elif len(pieces) in (3, 4) and pieces[0] == get_text('record-keyword', config.default_language):
+        return parse_message_pieces(conn, False, pieces[1], pieces[2], pieces[3] if len(pieces) > 3 else None, None, None)
     else:
         if text.startswith('enroll'):
             raise ValueError(get_text('cannot-parse-enroll', config.default_language))
         else:
             raise ValueError(get_text('cannot-parse-reg', config.default_language))
 
-def parse_message_pieces (conn_recvd_from, site_id, patient_id, patient_phone_str, contact_time_str, lang):
+def parse_message_pieces (conn_recvd_from, subscribing, site_id, patient_id, patient_phone_str, contact_time_str, lang):
     """parse the sms message, either raising a variety of exceptions, or returning patient id,
     contact time as integer minutes since midnight, and language code to use for future notifications"""
 
     #language code
-    validated_language = get_validated_language(lang) 
-    if not validated_language:
-        raise ValueError(get_text('language-unrecognized', config.default_language))
+    if subscribing:
+        validated_language = get_validated_language(lang) 
+        if not validated_language:
+            raise ValueError(get_text('language-unrecognized', config.default_language))
+        else:
+            lang = validated_language
     else:
-        lang = validated_language
+        lang = config.default_language
 
     #site
     location = get_validated_site(site_id)
@@ -81,7 +89,10 @@ def parse_message_pieces (conn_recvd_from, site_id, patient_id, patient_phone_st
             patient_conn = Connection(backend=conn_recvd_from.backend, identity=phone)
             patient_conn.save()
     else:
-        patient_conn = conn_recvd_from
+        if subscribing:
+            patient_conn = conn_recvd_from
+        else:
+            patient_conn = None
 
     #check if patient has already been registered
     try:
@@ -91,24 +102,29 @@ def parse_message_pieces (conn_recvd_from, site_id, patient_id, patient_phone_st
         patid_already_registered = False
         
     #check if phone number has already been registered
-    try:
-        Registration.objects.get(connection=patient_conn)
-        phone_already_registered = True
-    except Registration.DoesNotExist:
-        phone_already_registered = False
+    phone_already_registered = False
+    if patient_conn:
+        try:
+            Registration.objects.get(connection=patient_conn)
+            phone_already_registered = True
+        except Registration.DoesNotExist:
+            pass
     
     #todo: change behavior if existing registration is completed/expired
     if patid_already_registered:
-        if phone_already_registered:
+        if phone_already_registered or not subscribing:
             raise ValueError(get_text('already-registered', lang) % reg.registered_on.strftime('%d-%m-%Y'))
         else:
             raise ValueError(get_text('patid-already-registered', lang))
     elif phone_already_registered:
         raise ValueError(get_text('phone-already-registered', lang))
     
-    contact_time = parse_contact_time(contact_time_str)
-    if contact_time == None:
-        raise ValueError(get_text('cannot-parse-time', lang))
+    if subscribing:
+        contact_time = parse_contact_time(contact_time_str)
+        if contact_time == None:
+            raise ValueError(get_text('cannot-parse-time', lang))
+    else:
+        contact_time = None
     
     return (location, patient_id, patient_conn, contact_time, lang)
 

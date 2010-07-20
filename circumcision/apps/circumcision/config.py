@@ -23,7 +23,9 @@ itext = {
     'en': {
         'reg-keyword': 'register',
         'enroll-keyword': 'enroll',
+        'record-keyword': 'record',
         'reg-success': 'You have been registered. You will receive your notifications at %s',
+        'rec-success': 'Patient %s has been recorded',
         'reg-help': 'To register, send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'enroll-help': 'To enroll, send message as: enroll [site id] [patient id] [patient phone #] [desired contact time (HHMM)] [language (EN/SW/LUO)]',
         'cannot-parse-reg': 'Did not understand; send message as: register [site id] [patient id] [desired contact time (HHMM)] [language (EN/SW/LUO)]',

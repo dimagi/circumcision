@@ -10,8 +10,8 @@ from rapidsms.contrib.locations.models import Location
 
 class Registration(models.Model):
     patient_id = models.CharField(max_length=20, primary_key=True)
-    contact_time = models.IntegerField()
-    connection = models.ForeignKey(Connection, unique=True)
+    contact_time = models.IntegerField(blank=True, null=True)
+    connection = models.ForeignKey(Connection, unique=True, blank=True, null=True)
     location = models.ForeignKey(Location)
     registered_on = models.DateField(auto_now_add=True)
     language = models.CharField(max_length=20, default="en")

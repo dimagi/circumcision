@@ -36,10 +36,14 @@
                 <td style="white-space: nowrap;" >{{ px.site }}</td>
                 <td>{{ px.post_op }}</td>
                 <td>{{ px.registered_on }}</td>
-                <td>{{ px.connection.identity }}</td>
+                <td>{% if px.connection %}{{ px.connection.identity }}{% else %}&#x2014;{% endif %}</td>
+                {% if px.no_notif %}
+                <td colspan="{{ days|length }}" style="background-color: #ddd; font-size: 80%; color: #888; text-align: center;">not signed up for notifications</td>
+                {% else %}
                 {% for dn in px.notifications %}
                 <td>{% if dn %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
                 {% endfor %}
+                {% endif %}
                 <td>{% if px.followup_visit %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
                 <td>{% if px.final_visit %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
 			</tr>{% endfor %}{% else %}

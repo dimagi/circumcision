@@ -14,9 +14,9 @@
     <tr><td align="left">Site:</td><td align="right"><b>{{ px.site }}</b></td></tr>
     <tr><td align="left">Days post-op:</td><td align="right"><b>{{ px.post_op }}</b></td></tr>
     <tr><td align="left">Registered on:</td><td align="right"><b>{{ px.registered_on }}</b></td></tr>
-    <tr><td align="left">Phone #:</td><td align="right"><b>{{ px.connection.identity }}</b></td></tr>
-    <tr><td align="left">Received notifications for days:</td><td align="right"><b>{{ px.notifications }}</b></td></tr>
-	<tr><td align="left">Contact time:</td><td align="right"><b>{{ px.contact_time }}</b></td></tr>
+    <tr><td align="left">Phone #:</td><td align="right"><b>{% if px.connection %}{{ px.connection.identity }}{% else %}&#x2014;{% endif %}</b></td></tr>
+    <tr><td align="left">Received notifications for days:</td><td align="right"><b>{% if px.no_notif %}N/A{% else %}{{ px.notifications }}{% endif %}</b></td></tr>
+	<tr><td align="left">Contact time:</td><td align="right"><b>{% if px.no_notif %}N/A{% else %}{{ px.contact_time }}{% endif %}</b></td></tr>
 	<tr {% if px.late_fu %}style="background-color: #fdd;"{% endif %}><td align="left">Completed follow-up visit?</td><td align="right">{{ pat_form.followup_visit }}
        {% if px.late_fu %} <span style="color: red; font-size: 80%;"><b>LATE</b></span>{% endif %}</td></tr>
 	<tr {% if px.late_final %}style="background-color: #fdd;"{% endif %}><td align="left">Completed final interview?</td><td align="right">{{ pat_form.final_visit }}
