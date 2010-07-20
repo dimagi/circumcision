@@ -52,6 +52,8 @@ def parse_message (text, conn):
     else:
         if text.startswith('enroll'):
             raise ValueError(get_text('cannot-parse-enroll', config.default_language))
+        elif text.startswith('record'):
+            raise ValueError(get_text('cannot-parse-record', config.default_language))
         else:
             raise ValueError(get_text('cannot-parse-reg', config.default_language))
 
