@@ -52,9 +52,9 @@ itext = {
         'notif14' : 'This is your MC provider. Be sure to call or come back to the clinic anytime if you have a question or concern.',
         'notif21' : 'This is your MC provider. Abstaining from sex and masturbation ensures that you will heal properly. ',
         'notif28' : 'This is your MC provider. Remember dont have sex until you are fully healed.  ',
-        'notif35' : 'Remember that MC does not provide 100% protection from HIV and STIs.',
+        'notif35' : 'Remember that MC does not provide 100%% protection from HIV and STIs.',
         'notif41' : 'If you start sex after MC, it is important to protect yourself and your partner by using condoms.',
-        'notif42' : 'Remember that MC does not provide 100% protection from HIV and STIs. Be faithful to one partner and use a condom correctly every time you have sex.',
+        'notif42' : 'Remember that MC does not provide 100%% protection from HIV and STIs. Be faithful to one partner and use a condom correctly every time you have sex.',
     },
     "luo": {
         'intro' : "Ka okin nga't monego yudi mesej mar nyange ni wakwai mondo i or STOP ir namba ni %s asto ok ibi yudo mesej ni kendo. Ero kamano" % service_number,
@@ -69,7 +69,7 @@ itext = {
         'notif14' : 'Ma en joma ne oteri nyange.Bed gi chir mar go simo kata duogo e kar thieth e samoro amora ma in kod penjo kata wach machandi',
         'notif21' : 'Ma en joma ne oteri nyange. Weyo ma ok I bedo e achiel kata puo ruok  biro miyo ichango maber',
         'notif28' : 'ma en joma ne oteri nyange.par ni,kik ibad e achiel nyaka ichang maber',
-        'notif35' : 'Par ni nyange ok geng yudo kute mag ayaki kata touche mag nyeje gi atamalo 100%   ',
+        'notif35' : 'Par ni nyange ok geng yudo kute mag ayaki kata touche mag nyeje gi atamalo 100%%',
         'notif41' : 'sama idok e bedo e achiel bang nyange,ber mondo iritri kod jaherani kuom tiyo kod kondom',
         'notif42' : 'par ninyange ok geng yudo kute mag ayaki kata nyae gi atamalo 100.Chomri kad jaherani achiel kenda iti kod kondom kaka  owinjore eseche duto ma I bedo e achiel',
     }, 
@@ -86,8 +86,8 @@ itext = {
         'notif14' : 'Huyu ni yule aliyekutoza tohara.  Hakikisha kuwa unapiga simu au kurudi kwenye Kliniki wakati wowote una maswali au tashuishi',
         'notif21' : 'Huyu ni yule aliyekutoza tohara.  Kujiepusha kutokana na ngono na kujichua inakuhakikishia uponyaji kamili. ',
         'notif28' : 'Huyu ni yule aliyekutoza tohara.  Kumbuka, usifanye mapenzi  hadi upone kabisa',
-        'notif35' : 'Kumbuka kutahiri haikupi kinga 100% kutokana na ugonjwa wa ukimwi na zina',
+        'notif35' : 'Kumbuka kutahiri haikupi kinga 100%% kutokana na ugonjwa wa ukimwi na zina',
         'notif41' : 'Ukisha aanza kufanya mapenzi tena baada ya kutahiriwa, ni muhimu kujikinga na mpenzi wako kwa kutimia mipira sahihi, kila wakati ukifanya mapenzi ',
-        'notif42' : 'Kumbuka kutahiri haikupi kinga 100% kutokana na ukimwi na zinaa Kuwa mwaminifu kwa mpenzi moja na utumie mpira kwa usahihi kila wakati unapofanya mapenzi',
+        'notif42' : 'Kumbuka kutahiri haikupi kinga 100%% kutokana na ukimwi na zinaa Kuwa mwaminifu kwa mpenzi moja na utumie mpira kwa usahihi kila wakati unapofanya mapenzi',
     }
 }
