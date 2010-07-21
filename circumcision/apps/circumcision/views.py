@@ -65,7 +65,7 @@ def export (request):
 def to_csv (f):
     regs = load_patients()    
 
-    headers = list(itertools.chain(['Patient ID', 'Site', 'Days Post-op', 'Registered on', 'Phone #'],
+    headers = list(itertools.chain(['Patient ID', 'Site', 'Days Post-op', 'Registered on', 'Phone #', 'Language'],
                                    ['Day %d' % i for i in config.notification_days],
                                    ['Follow-up Visit', 'Final Visit', 'Status']))
 
@@ -86,7 +86,7 @@ def to_csv (f):
         else:
             phone_txt = csvtext(phone_txt)
 
-        line = list(itertools.chain([csvtext(r.patient_id), r.site, r.post_op, r.registered_on.strftime('%Y-%m-%d'), phone_txt],
+        line = list(itertools.chain([csvtext(r.patient_id), r.site, r.post_op, r.registered_on.strftime('%Y-%m-%d'), phone_txt, r.language],
                                     [csvbool(n) for n in r.notifications],
                                     [csvbool(r.followup_visit), csvbool(r.final_visit), status_txt]))
         writer.writerow(line)
