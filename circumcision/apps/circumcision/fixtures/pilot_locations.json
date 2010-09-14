@@ -1,0 +1,155 @@
+[
+  {
+    "pk": 1, 
+    "model": "locations.locationtype", 
+    "fields": {
+      "exists_in": null, 
+      "plural": "study sites", 
+      "slug": "study-sites", 
+      "singular": "study site"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Nyanza Provincial General Hospital", 
+      "parent": null, 
+      "slug": "1"
+    }
+  },
+  {
+    "pk": 2, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Kisumu District Hospital", 
+      "parent": null, 
+      "slug": "2"
+    }
+  },
+  {
+    "pk": 3, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "UNIM", 
+      "parent": null, 
+      "slug": "3"
+    }
+  },
+  {
+    "pk": 4, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Chulaimbo RHTC", 
+      "parent": null, 
+      "slug": "4"
+    }
+  },
+  {
+    "pk": 5, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Bodi Dispensary", 
+      "parent": null, 
+      "slug": "5"
+    }
+  },
+  {
+    "pk": 6, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Kombewa District Hospital", 
+      "parent": null, 
+      "slug": "6"
+    }
+  },
+  {
+    "pk": 7, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Lwala Kadawa Dispenasry", 
+      "parent": null, 
+      "slug": "7"
+    }
+  },
+  {
+    "pk": 8, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Manyuanda Health Centre", 
+      "parent": null, 
+      "slug": "8"
+    }
+  },
+  {
+    "pk": 9, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Siriba Dispensary", 
+      "parent": null, 
+      "slug": "9"
+    }
+  },
+  {
+    "pk": 10, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Miranga Sub District Hospital", 
+      "parent": null, 
+      "slug": "10"
+    }
+  },
+  {
+    "pk": 11, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Ratta Sub District Hospital", 
+      "parent": null, 
+      "slug": "11"
+    }
+  },
+  {
+    "pk": 12, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Riat Dispensary", 
+      "parent": null, 
+      "slug": "12"
+    }
+  },
+  {
+    "pk": 13, 
+    "model": "locations.location", 
+    "fields": {
+      "point": null, 
+      "type": 1, 
+      "name": "Rodi Dispensary", 
+      "parent": null, 
+      "slug": "13"
+    }
+  }
+]
