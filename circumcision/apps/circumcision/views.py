@@ -115,7 +115,7 @@ def annotate_patient (p):
     p.no_notif = (p.contact_time == None)
     if not p.no_notif:
         p.contact_time = '%02d:%02d' % split_contact_time(p.contact_time)
-    p.site = '%d-%s' % (p.location.id, p.location.name)
+    p.site = '%d-%s' % (p.location.slug, p.location.name)
 
     p.late_final = p.post_op > 42 and not p.final_visit
     p.late_fu = p.post_op > 7 and not p.followup_visit
