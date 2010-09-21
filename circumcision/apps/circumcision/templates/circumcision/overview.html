@@ -48,12 +48,12 @@
                 <td>{% if px.final_visit %}<img src="/static/rapidsms/images/icon-yes.gif">{% else %}<img src="/static/rapidsms/images/icon-no.gif">{% endif %}</td>
 			</tr>{% endfor %}{% else %}
 			<tr class="no-data">
-				<td colspan="{{ days|length|add:"6" }}">No patients registered</td>
+				<td colspan="{{ days|length|add:"7" }}">No patients registered</td>
 			</tr>{% endif %}
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="{{ days|length|add:"6" }}">
+				<td colspan="{{ days|length|add:"7" }}">
 					{% paginator patients %}
 				</td>
 			</tr>
