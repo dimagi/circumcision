@@ -57,6 +57,7 @@ itext = {
         'notif42' : 'Remember that MC does not provide 100%% protection from HIV and STIs. Be faithful to one partner and use a condom correctly every time you have sex.',
     },
     "luo": {
+        'reg-success': 'Oserwaki e nonro. Ibiro yudo mesej saa %s',
         'intro' : "Ka okin nga't monego yudi mesej mar nyange ni wakwai mondo i or STOP ir namba ni %s asto ok ibi yudo mesej ni kendo. Ero kamano" % service_number,
         'notif1' : "ma en joma ne oteri nyange.Winjorem kata kuot matin nyakabedi, to kanitie kuot maokalo,chwer mar remo mang'eny kata rem mathoth to mondo iduog e kar thieth ka",
         'notif2' : 'par ni kik iwe pi donj e bandej.Kapok igole e odiochieng mar adek',
@@ -74,6 +75,7 @@ itext = {
         'notif42' : 'par ninyange ok geng yudo kute mag ayaki kata nyae gi atamalo 100.Chomri kad jaherani achiel kenda iti kod kondom kaka  owinjore eseche duto ma I bedo e achiel',
     }, 
     "sw": {
+        'reg-success': 'Umesajiliwa. Utapokea ujumbe saa %s',
         'intro' : 'Kama wewe sio mwenye kupokea ujumbe huu wa kupashwa tohara tafadhali tuma ujumbe STOP kwa %s na hautapata ujumbe huu tena. Asante' % service_number,
         'notif1' : 'Huyu ni yule aliyekutoza tohara.  Ni kawaida kusikia uchungu kidogo na uvimbe lakini kama kuna uvumbe zaidi kutoka damu au uchungu tafadhali rudi katika kliniki',
         'notif2' : 'Huyu ni yule aliyekutoza tohara. Kumbuka kutowacha maji kulowa alfafa kabla ya kuitoa siku ya tatu',
