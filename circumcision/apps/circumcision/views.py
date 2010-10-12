@@ -18,6 +18,10 @@ import itertools
 from datetime import datetime, timedelta
 import util
 import hashlib
+import pytz
+import json
+import os
+import re
 
 def patient_list (request):
 
@@ -132,34 +136,47 @@ def obfuscate(data, length=12):
     SALT = 'f64f9b34'
     return hashlib.sha1(SALT + data).hexdigest()[:length]
 
-def msglog (request, public=False):
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
-
+def get_message_log(public):
     messages = util.sending_report()
     messages.sort(key=lambda m: (m['sched'], m['day'], m['pat']))
+
+    now = pytz.utc.localize(datetime.utcnow())
+
+    for m in messages:
+        m['id'] = obfuscate(m['pat']) if public else m['pat']
+        m['fmt_sched'] = m['sched'].strftime('%Y-%m-%d %H:%M:%S')
+        m['fmt_sent_on'] = m['sent'].strftime('%Y-%m-%d %H:%M:%S') if m['sent'] else None
+
+        if not m['sent']:
+            if m['should_be_sent']:
+                m['status'] = 'overdue'
+                m['fmt_status'] = 'OVERDUE to be sent'
+            else:
+                m['status'] = 'unsent'
+                m['fmt_status'] = 'not sent yet'
+        elif m['sent'] < m['sched'] - timedelta(seconds=15):
+            m['status'] = 'sent_early'
+            m['fmt_status'] = 'strange: sent before scheduled'
+        elif m['sent'] > m['sched'] + timedelta(seconds=90):
+            diff = m['sent'] - m['sched']
+            m['status'] = 'late:%d' % fdelta(diff)
+            m['fmt_status'] = 'LATE: ' + format_timediff(diff)
+        else:
+            m['status'] = 'sent'
+            m['fmt_status'] = 'sent on time'
+    
+        m['age'] = fdelta(now - m['sched'])
+        yield m
+
+def msglog (request):
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
 
     writer = csv.writer(response)
     writer.writerow(['Patient ID', 'Day #', 'Scheduled', 'Sent on', 'Status'])
 
-    for m in messages:
-        patid = obfuscate(m['pat']) if public else m['pat']
-        sched = m['sched'].strftime('%Y-%m-%d %H:%M:%S') if m['sched'] else None
-        sent_on = m['sent'].strftime('%Y-%m-%d %H:%M:%S') if m['sent'] else None
-
-        if not sched:
-            status = 'error'
-        elif not sent_on:
-            status = 'OVERDUE to be sent' if m['should_be_sent'] else 'not sent yet'
-        elif m['sent'] < m['sched'] - timedelta(seconds=15):
-            status = 'strange: sent before scheduled'
-        elif m['sent'] > m['sched'] + timedelta(seconds=90):
-            diff = m['sent'] - m['sched']
-            status = 'LATE: ' + format_timediff(diff)
-        else:
-            status = 'sent on time'
-
-        writer.writerow([csvtext(patid), m['day'], sched, sent_on, status])
+    for m in get_message_log(False):
+        writer.writerow([csvtext(m['id']), m['day'], m['fmt_sched'], m['fmt_sent_on'], m['fmt_status']])
 
     return response
 
@@ -183,3 +200,14 @@ def format_timediff(diff):
     else:
         return '%ds' % (s,)
 
+def diagnostics(request):
+    problems = []
+
+    for m in get_message_log(True):
+        if m['status'] == 'overdue':
+            problems.append('overdue message: pat %s day %d scheduled for %s' % (m['id'], m['day'], m['fmt_sched']))
+
+    if not [ln for ln in os.popen('ps -ef').readlines() if re.search('python .*manage[.]py route', ln)]:
+        problems.append('router not running')
+
+    return HttpResponse(json.dumps({'errors': problems}), 'text/json')

@@ -23,7 +23,7 @@ class LoginRequired(object):
     """
     
     urls = ['/admin/', '/accounts/login/', '/accounts/logout/', settings.MEDIA_URL,
-            '/circumcision/public_msglog/']
+            '/circumcision/diagnostics/']
     
     def process_view(self, request, view_func, view_args, view_kwargs):
         for url in self.urls:

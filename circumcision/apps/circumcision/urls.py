@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     url(r'^circumcision/patient/(.+)/$', views.patient_update),
     url(r'^circumcision/export/$', views.export),
     url(r'^circumcision/msglog/$', views.msglog),
-    url(r'^circumcision/public_msglog/$', views.msglog, {'public': True}),
+    url(r'^circumcision/diagnostics/$', views.diagnostics),
 )
