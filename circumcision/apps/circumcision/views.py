@@ -15,7 +15,8 @@ from django.forms import ModelForm, HiddenInput
 from rapidsms.utils import paginated
 import csv
 import itertools
-from datetime import datetime
+from datetime import datetime, timedelta
+import util
 
 def patient_list (request):
 
@@ -62,19 +63,19 @@ def export (request):
     to_csv(response)
     return response
 
+def csvbool (b):
+    return 'X' if b else ''
+
+#note: escaping text in this way (to preserve leading zeros) only works when viewing in excel
+def csvtext (s):
+    return '="%s"' % s
+
 def to_csv (f):
     regs = load_patients()    
 
     headers = list(itertools.chain(['Patient ID', 'Site', 'Days Post-op', 'Registered on', 'Phone #', 'Language'],
                                    ['Day %d' % i for i in config.notification_days],
                                    ['Follow-up Visit', 'Final Visit', 'Status']))
-
-    def csvbool (b):
-        return 'X' if b else ''
-
-    #note: escaping text in this way (to preserve leading zeros) only works when viewing in excel
-    def csvtext (s):
-        return '="%s"' % s
 
     writer = csv.writer(f)
     writer.writerow(headers)
@@ -126,4 +127,53 @@ def annotate_patient (p):
     else:
         p.status = None
 
+def msglog (request):
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
+
+    messages = util.sending_report()
+    messages.sort(key=lambda m: (m['sched'], m['day'], m['pat']))
+
+    writer = csv.writer(response)
+    writer.writerow(['Patient ID', 'Day #', 'Scheduled', 'Sent on', 'Status'])
+
+    for m in messages:
+        sched = m['sched'].strftime('%Y-%m-%d %H:%M:%S') if m['sched'] else None
+        sent_on = m['sent'].strftime('%Y-%m-%d %H:%M:%S') if m['sent'] else None
+
+        if not sched:
+            status = 'error'
+        elif not sent_on:
+            status = 'not sent yet'
+        elif m['sent'] < m['sched'] - timedelta(seconds=15):
+            status = 'strange: sent before scheduled'
+        elif m['sent'] > m['sched'] - timedelta(seconds=90):
+            diff = m['sent'] - m['sched']
+            status = 'LATE: ' + format_timediff(diff)
+        else:
+            status = 'sent on time'
+
+        writer.writerow([csvtext(m['pat']), m['day'], sched, sent_on, status])
+
+    return response
+
+def fdelta(d):
+    return 86400.*d.days + d.seconds + 1.e-6*d.microseconds
+
+def format_timediff(diff):
+    t = int(fdelta(diff))
+
+    s = t % 60
+    m = (t / 60) % 60
+    h = (t / 3600) % 24
+    d = t / 86400
+
+    if d > 0:
+        return '%dd %02dh %02dm %02ds' % (d, h, m, s)
+    elif h > 0:
+        return '%dh %02dm %02ds' % (h, m, s)
+    elif m > 0:
+        return '%dm %02ds' % (m, s)
+    else:
+        return '%ds' % (s,)
 
