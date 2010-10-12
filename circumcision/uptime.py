@@ -11,6 +11,8 @@ RECIPIENTS = [
     '7815584462@tmomail.net',
 ]
 
+SMTP_PASS = FILLMEIN
+
 class TLSSMTPHandler(logging.handlers.SMTPHandler):
     def emit(self, record):
         headers = []
@@ -43,7 +45,7 @@ def init_logging():
         'Uptime Monitor <uptime@dimagi.com>',
         RECIPIENTS,
         'circumcision server error',
-        ('hgmon@dimagi.com', FILLMEIN)
+        ('hgmon@dimagi.com', SMTP_PASS)
     )
     handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(message)s'))
     root.addHandler(handler)
