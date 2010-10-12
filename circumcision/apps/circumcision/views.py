@@ -17,6 +17,7 @@ import csv
 import itertools
 from datetime import datetime, timedelta
 import util
+import hashlib
 
 def patient_list (request):
 
@@ -127,7 +128,11 @@ def annotate_patient (p):
     else:
         p.status = None
 
-def msglog (request):
+def obfuscate(data, length=12):
+    SALT = 'f64f9b34'
+    return hashlib.sha1(SALT + data).hexdigest()[:length]
+
+def msglog (request, public=False):
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
 
@@ -138,6 +143,7 @@ def msglog (request):
     writer.writerow(['Patient ID', 'Day #', 'Scheduled', 'Sent on', 'Status'])
 
     for m in messages:
+        patid = obfuscate(m['pat']) if public else m['pat']
         sched = m['sched'].strftime('%Y-%m-%d %H:%M:%S') if m['sched'] else None
         sent_on = m['sent'].strftime('%Y-%m-%d %H:%M:%S') if m['sent'] else None
 
@@ -153,7 +159,7 @@ def msglog (request):
         else:
             status = 'sent on time'
 
-        writer.writerow([csvtext(m['pat']), m['day'], sched, sent_on, status])
+        writer.writerow([csvtext(patid), m['day'], sched, sent_on, status])
 
     return response
 
