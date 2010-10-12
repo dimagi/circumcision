@@ -147,7 +147,7 @@ def msglog (request):
             status = 'not sent yet'
         elif m['sent'] < m['sched'] - timedelta(seconds=15):
             status = 'strange: sent before scheduled'
-        elif m['sent'] > m['sched'] - timedelta(seconds=90):
+        elif m['sent'] > m['sched'] + timedelta(seconds=90):
             diff = m['sent'] - m['sched']
             status = 'LATE: ' + format_timediff(diff)
         else:
