@@ -142,7 +142,7 @@ def get_validated_site(site_id):
     the location object, or None if not found."""
         #todo: should do better cleanup of param
     try:
-        return Location.objects.get(slug=site_id)
+        return Location.objects.get(slug__iexact=site_id)
     except Location.DoesNotExist:
         return None
     
