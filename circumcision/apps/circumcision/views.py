@@ -144,7 +144,7 @@ def msglog (request):
         if not sched:
             status = 'error'
         elif not sent_on:
-            status = 'not sent yet'
+            status = 'OVERDUE to be sent' if m['should_be_sent'] else 'not sent yet'
         elif m['sent'] < m['sched'] - timedelta(seconds=15):
             status = 'strange: sent before scheduled'
         elif m['sent'] > m['sched'] + timedelta(seconds=90):

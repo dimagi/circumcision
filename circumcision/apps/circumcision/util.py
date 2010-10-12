@@ -4,6 +4,7 @@ from rapidsms.contrib.messagelog.models import Message
 import circumcision.apps.circumcision.config as config
 from circumcision.apps.circumcision.text import get_notification
 import pytz
+from datetime import datetime
 
 def validate_message_uniqueness():
     for lang in config.itext:
@@ -12,8 +13,7 @@ def validate_message_uniqueness():
             raise ValueError('messages for language [%s] are not unique!' % lang)
 
 def normalize_datetime(dt):
-    if not dt.tzinfo:
-        dt = pytz.timezone(config.server_tz).localize(dt)
+    dt = pytz.timezone(config.server_tz).localize(dt)
     return dt.astimezone(pytz.timezone(config.incoming_tz))
 
 def sending_report():
@@ -32,8 +32,10 @@ def sending_report():
             try:
                 event = scheduled_msgs.get(description='patient %s; day %d' % (p.patient_id, d))
                 scheduled_send = normalize_datetime(event.start_time)
+                should_be_sent = event.start_time <= datetime.now()
             except EventSchedule.DoesNotExist:
                 scheduled_send = None
+                should_be_sent = False
 
             text = get_notification(d, p.language)
             try:
@@ -42,6 +44,6 @@ def sending_report():
             except Message.DoesNotExist:
                 sent_on = None
 
-            sendlog.append({'pat': p.patient_id, 'day': d, 'sched': scheduled_send, 'sent': sent_on})
+            sendlog.append({'pat': p.patient_id, 'day': d, 'sched': scheduled_send, 'sent': sent_on, 'should_be_sent': should_be_sent})
 
     return sendlog
