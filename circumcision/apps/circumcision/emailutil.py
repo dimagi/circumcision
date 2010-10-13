@@ -67,6 +67,9 @@ def send_email (send_config, to, subj, mime_body):
     conn.quit()
 
 def schedule(recipients, hour, minute, day_of_week=None, remove_old=True):
+    if not hasattr(recipients, '__iter__'):
+        raise ValueError('recipients must be list')
+
     daysofweek = {'sun': 6, 'mon': 0, 'tue': 1, 'wed': 2, 'thu': 3, 'fri': 4, 'sat': 5}
     if day_of_week:
         matches = [d for d in daysofweek if d.startswith(day_of_week)]
