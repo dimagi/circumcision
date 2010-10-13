@@ -204,7 +204,7 @@ def diagnostics(request):
     problems = []
 
     for m in get_message_log(True):
-        if m['status'] == 'overdue':
+        if m['status'] == 'overdue' and m['age'] > 90.:
             problems.append('overdue message: pat %s day %d scheduled for %s' % (m['id'], m['day'], m['fmt_sched']))
 
     if not [ln for ln in os.popen('ps -ef').readlines() if re.search('python .*manage[.]py route', ln)]:

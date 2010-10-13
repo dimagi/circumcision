@@ -9,6 +9,8 @@ DIAG_URL = 'http://173.203.120.166/circumcision/diagnostics/'
 RECIPIENTS = [
     'droos@dimagi.com',
     '7815584462@tmomail.net',
+    'czue@dimagi.com',
+    '6174160544@tmomail.net',
 ]
 
 SMTP_PASS = FILLMEIN
