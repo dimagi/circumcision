@@ -3,8 +3,13 @@ from StringIO import StringIO
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from circumcision.apps.circumcision.models import Registration, SentNotif
-from circumcision.apps.circumcision.views import to_csv
+from circumcision.apps.circumcision.models import Registration
+from rapidsms.contrib.locations.models import Location
+from rapidsms.contrib.scheduler.models import EventSchedule
+from circumcision.apps.circumcision.views import to_csv, load_patients
+import circumcision.apps.circumcision.util as util
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 def email_report (router, recipients):
     try:
@@ -15,10 +20,10 @@ def email_report (router, recipients):
         raise Exception('no email back-end present!')
 
     subject = 'Circumcision Follow-up: Snapshot Report [%s]' % datetime.now().strftime('%Y-%m-%d')
-    body_text = 'Attached you will find the latest dashboard snapshot.'
+    body_text = email_report_body()
 
     msg = MIMEMultipart('mixed')
-    msg.attach(MIMEText(body_text, 'plain'))
+    msg.attach(MIMEText(body_text, 'html'))
 
     buff = StringIO()
     to_csv(buff)
@@ -28,6 +33,21 @@ def email_report (router, recipients):
     buff.close()
 
     send_email(email_config, recipients, subject, msg)
+
+def email_report_body():
+    content = []
+
+    regs = load_patients()
+    stats = util.reg_totals(regs)
+    stats['header'] = 'All sites'
+    content.append(stats)
+
+    for loc in Location.objects.filter(type__slug='study-sites').order_by('slug'):
+        stats = util.reg_totals(regs.filter(location=loc))
+        stats['header'] = '%s-%s' % (loc.slug.upper(), loc.name)
+        content.append(stats)        
+
+    return render_to_string('circumcision/emailreport.html', {'c': content})
 
 def send_email (send_config, to, subj, mime_body):
     #'to' can be list of addresses, or single string of comma-separated addresses
@@ -46,13 +66,28 @@ def send_email (send_config, to, subj, mime_body):
     conn.sendmail(send_config.username, to, mime_body.as_string())
     conn.quit()
 
-"""
-to schedule from django shell:
+def schedule(recipients, hour, minute, day_of_week=None, remove_old=True):
+    daysofweek = {'sun': 6, 'mon': 0, 'tue': 1, 'wed': 2, 'thu': 3, 'fri': 4, 'sat': 5}
+    if day_of_week:
+        matches = [d for d in daysofweek if d.startswith(day_of_week)]
+        if len(matches) == 0:
+            raise ValueError('unknown day of week [%s]' % day_of_week)
+        elif len(matches) > 1:
+            raise ValueError('ambiguous day of week [%s]' % day_of_week)
+        dow = [daysofweek[matches[0]]]
+    else:
+        dow = None
 
-from rapidsms.contrib.scheduler.models import EventSchedule
-EventSchedule(callback='circumcision.apps.circumcision.emailutil.email_report',
-              hours='17', minutes='0',
-              callback_args=['address1@email.com, address2@email.com, address3@email.com']).save()
+    callback = 'circumcision.apps.circumcision.emailutil.email_report'
 
-remember to delete old schedule entries
-"""
+    if remove_old:
+        EventSchedule.objects.filter(callback=callback).delete()
+
+    EventSchedule(
+        callback=callback,
+        hours=[hour], minutes=[minute], days_of_week=dow,
+        callback_args=recipients
+    ).save()
+
+def debug_email_report(request):
+    return HttpResponse(email_report_body())

@@ -5,6 +5,7 @@ Created on Mar 31, 2010
 '''
 
 import circumcision.apps.circumcision.views as views
+import circumcision.apps.circumcision.emailutil as emailutil
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
@@ -13,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^circumcision/export/$', views.export),
     url(r'^circumcision/msglog/$', views.msglog),
     url(r'^circumcision/diagnostics/$', views.diagnostics),
+    url(r'^circumcision/debug/emailreport/$', emailutil.debug_email_report),
 )

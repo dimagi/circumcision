@@ -40,7 +40,7 @@ def patient_list (request):
     
     regs = load_patients()
     return render_to_response(request, 'circumcision/overview.html',
-            {'days': config.notification_days, 'patients': paginated(request, regs), 'save_msg': save_msg, 'qt': quick_totals()})
+            {'days': config.notification_days, 'patients': paginated(request, regs), 'save_msg': save_msg, 'qt': util.reg_totals(regs)})
 
 def patient_update (request, patid):
     patient = get_object_or_404(Registration, patient_id=patid)
@@ -131,27 +131,6 @@ def annotate_patient (p):
         p.status = 'late-followup'
     else:
         p.status = None
-
-def quick_totals():
-    active_cutoff = date.today() - timedelta(days=config.notification_days[-1])
-
-    regs = Registration.objects.all()
-    active = regs.filter(registered_on__gte=active_cutoff)
-
-    total_enrolled = len(regs)
-    total_active = len(active)
-
-    enrolled_receiving = len(regs.filter(contact_time__isnull=False))
-    active_receiving = len(active.filter(contact_time__isnull=False))
-
-    return {
-        'ttl': total_enrolled,
-        'active': total_active,
-        'ttl_recv': enrolled_receiving,
-        'active_recv': active_receiving,
-        'ttl_norecv': total_enrolled - enrolled_receiving,
-        'active_norecv': total_active - active_receiving,
-    }
 
 def obfuscate(data, length=12):
     SALT = 'f64f9b34'

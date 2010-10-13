@@ -1,0 +1,58 @@
+<!-- note: gmail ignores style! -->
+<style>
+body {
+  font-family: sans-serif;
+}
+</style>
+
+<div>
+
+<h2>SMS Circumcision Snapshot Report</h2>
+
+<span style="font-size: small; font-style: italic;">for {% now "F j, Y" %}</span>
+
+<hr>
+
+{% for section in c %}
+
+<h3>{{ section.header }}</h3>
+
+<table border="0">
+<tr>
+  <td>Total registered this week:&nbsp;&nbsp;</td>
+  <td><b>{{ section.this_week }}</b></td>
+</tr>
+<tr>
+  <td>Total registered:&nbsp;&nbsp;</td>
+  <td><b>{{ section.ttl }}</b></td>
+</tr>
+<tr>
+  <td>Total active:&nbsp;&nbsp;</td>
+  <td><b>{{ section.active }}</b></td>
+</tr>
+</table>
+<table border="0">
+<br>
+<tr>
+  <td></td>
+  <td align="center">&nbsp;Expected&nbsp;</td>
+  <td align="center">&nbsp;Returned&nbsp;</td>
+  <td align="center">&nbsp;Overdue&nbsp;</td>
+</tr>
+<tr>
+  <td>Follow-up Visit:</td>
+  <td align="center"><b>{{ section.exp_fu }}</b></td>
+  <td align="center"><b>{{ section.ret_fu }}</b></td>
+  <td align="center"><b>{{ section.late_fu }}</b></td>
+</tr>
+<tr>
+  <td>Final Visit:</td>
+  <td align="center"><b>{{ section.exp_fin }}</b></td>
+  <td align="center"><b>{{ section.ret_fin }}</b></td>
+  <td align="center"><b>{{ section.late_fin }}</b></td>
+</tr>
+</table>
+
+{% endfor %}
+
+</div>

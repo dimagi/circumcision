@@ -4,7 +4,7 @@ from rapidsms.contrib.messagelog.models import Message
 import circumcision.apps.circumcision.config as config
 from circumcision.apps.circumcision.text import get_notification
 import pytz
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 def validate_message_uniqueness():
     for lang in config.itext:
@@ -47,3 +47,51 @@ def sending_report():
             sendlog.append({'pat': p.patient_id, 'day': d, 'sched': scheduled_send, 'sent': sent_on, 'should_be_sent': should_be_sent})
 
     return sendlog
+
+def reg_totals(regs):
+    total_days = config.notification_days[-1]
+
+    active_cutoff = date.today() - timedelta(days=total_days)
+    week_cutoff = date.today() - timedelta(days=6)
+
+    active = regs.filter(registered_on__gte=active_cutoff)
+    last_week = regs.filter(registered_on__gte=week_cutoff)
+
+    total_enrolled = len(regs)
+    total_active = len(active)
+    total_week = len(last_week)
+
+    enrolled_receiving = len(regs.filter(contact_time__isnull=False))
+    active_receiving = len(active.filter(contact_time__isnull=False))
+
+    def visit(regs, has_had_visit, num_days, late_cutoff=None):
+        def single_visit(r):
+            regd_ago = date.today() - r.registered_on
+            past_cutoff = (late_cutoff != None and regd_ago >= timedelta(days=late_cutoff))
+
+            expected = regd_ago >= timedelta(days=num_days) and not past_cutoff
+            returned = has_had_visit(r)
+            late = regd_ago > timedelta(days=num_days) and not past_cutoff and not returned
+
+            return (expected, returned, late)
+
+        return [len(filter(lambda e: e, k)) for k in zip(*[single_visit(r) for r in regs])] if regs else [0, 0, 0]
+
+    expected_fu_visit, returned_fu_visit, late_fu_visit = visit(regs, lambda r: r.followup_visit, 7, total_days)
+    expected_final_visit, returned_final_visit, late_final_visit = visit(regs, lambda r: r.final_visit, total_days, total_days + 30)
+
+    return {
+        'ttl': total_enrolled,
+        'active': total_active,
+        'this_week': total_week,
+        'ttl_recv': enrolled_receiving,
+        'active_recv': active_receiving,
+        'ttl_norecv': total_enrolled - enrolled_receiving,
+        'active_norecv': total_active - active_receiving,
+        'exp_fu': expected_fu_visit,
+        'ret_fu': returned_fu_visit,
+        'late_fu': late_fu_visit,
+        'exp_fin': expected_final_visit,
+        'ret_fin': returned_final_visit,
+        'late_fin': late_final_visit,
+    }
