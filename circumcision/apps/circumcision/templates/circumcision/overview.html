@@ -11,6 +11,56 @@
     <br><br>
     {% endif %}
 
+  <h2>Quick Totals</h2>
+
+  <style>
+.qttopheader {
+  width: 13em;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  color: #666;
+}
+
+.qtleftheader {
+  width: 8em;
+  font-weight: bold;
+  vertical-align: bottom;
+  color: #666;
+}
+
+.qtdata {
+  text-align: center;
+  font-weight: bold;
+  font-size: 150%;
+}
+  </style>
+
+  <table width="100%">
+      <tr>
+        <th></th>
+        <th class="qttopheader">Total</th>
+        <th class="qttopheader">Receiving SMS</th>
+        <th class="qttopheader"><span style="color: #d33;">NOT</span> receiving SMS</th>
+        <th style="width: *;"></th>
+      </tr>
+      <tr>
+        <td class="qtleftheader">Active</td>
+        <td class="qtdata">{{ qt.active }}</td>
+        <td class="qtdata">{{ qt.active_recv }}</td>
+        <td class="qtdata">{{ qt.active_norecv }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="qtleftheader">Enrolled</td>
+        <td class="qtdata">{{ qt.ttl }}</td>
+        <td class="qtdata">{{ qt.ttl_recv }}</td>
+        <td class="qtdata">{{ qt.ttl_norecv }}</td>
+        <td></td>
+      </tr>
+  </table>
+  <br>
+
 	<h2>Registered Patients</h2>
 	<table>
 		<thead>
