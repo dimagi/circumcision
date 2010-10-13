@@ -92,5 +92,13 @@ def schedule(recipients, hour, minute, day_of_week=None, remove_old=True):
         callback_args=recipients
     ).save()
 
+"""
+schedule([
+  'droos@dimagi.com',
+  'czue@dimagi.com',
+  'odeny@u.washington.edu',
+], 10, 0, 'f')
+"""
+
 def debug_email_report(request):
     return HttpResponse(email_report_body())
