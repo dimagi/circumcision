@@ -89,7 +89,7 @@ def schedule(recipients, hour, minute, day_of_week=None, remove_old=True):
     EventSchedule(
         callback=callback,
         hours=[hour], minutes=[minute], days_of_week=dow,
-        callback_args=recipients
+        callback_args=[recipients]
     ).save()
 
 """
@@ -97,7 +97,7 @@ schedule([
   'droos@dimagi.com',
   'czue@dimagi.com',
   'odeny@u.washington.edu',
-], 10, 0, 'f')
+], 11, 0, 'f')
 """
 
 def debug_email_report(request):
