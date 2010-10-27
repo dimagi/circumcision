@@ -37,7 +37,9 @@ def sending_report():
                 scheduled_send = None
                 should_be_sent = False
 
-            text = get_notification(d, p.language)
+            text = get_notification(d, p.language) % {}
+            #messages in localization config are escaped, while those in message log are not
+
             try:
                 outgoing = messages.get(text=text, connection=p.connection)
                 sent_on = normalize_datetime(outgoing.date)
