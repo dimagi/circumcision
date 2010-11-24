@@ -149,7 +149,7 @@ def get_validated_site(site_id):
 #todo: should normalize patient id here too, if applicable
 def validate_patient_id_format(patient_id):
     """validate and normalize the patient id"""
-    return True
+    return (len(patient_id) <= 6)
 
 def parse_contact_time (contact_time_str):
     """parse the contact time and return a normalized value of minutes since midnight"""

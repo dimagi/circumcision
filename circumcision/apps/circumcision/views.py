@@ -170,7 +170,7 @@ def get_message_log(public):
 
 def msglog (request):
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=circumcision_patients_%s.csv' % datetime.now().strftime('%Y_%m_%d')
+    response['Content-Disposition'] = 'attachment; filename=message_log_%s.csv' % datetime.now().strftime('%Y_%m_%d')
 
     writer = csv.writer(response)
     writer.writerow(['Patient ID', 'Day #', 'Scheduled', 'Sent on', 'Status'])
