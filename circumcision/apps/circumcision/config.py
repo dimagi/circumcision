@@ -18,6 +18,13 @@ service_number = '0722819835'
 country_code = '254'
 backend_phone_format = 'intl'
 
+banned_phones = [
+    '736140788',
+    '738800039',
+    '733752524',
+    '733866116',
+]
+
 default_language = 'en'
 itext = {
     'en': {
@@ -40,6 +47,7 @@ itext = {
         'phone-already-registered': 'This phone has already been registered for another patient',
         'cannot-parse-time': 'Did not understand contact time; send as HHMM, i.e., 0600 for 6 AM or 2030 for 8:30 PM',
         'cannot-parse-phone': 'Could not understand phone number; enter as 0XXXXXXXXX or +%sXXXXXXXXX, no dashes or spaces' % country_code,
+        'banned-phone': 'The phone number is not a patient phone #. It belongs to one of the study staff. Check the number and try again.',
         'intro' : 'If u r not the intended recipient of this Male Circumcision (MC) message, please text STOP to %s and you will not receive future messages. Thank you.' % service_number,
         'notif1' : 'This is your MC provider. It is normal to feel a bit of pain and swelling, but if there is severe swelling, bleeding or pain please come back to the clinic. ',
         'notif2' : 'This is your MC provider. Remember do not allow water to soak the dressing before removal on the 3rd day.  ',

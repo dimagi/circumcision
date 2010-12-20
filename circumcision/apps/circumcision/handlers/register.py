@@ -95,6 +95,8 @@ def parse_message_pieces (conn_recvd_from, subscribing, site_id, patient_id, pat
             patient_conn = conn_recvd_from
         else:
             patient_conn = None
+    if patient_conn and conn_is_banned(patient_conn):
+        raise ValueError(get_text('banned-phone', lang))
 
     #check if patient has already been registered
     try:
@@ -183,6 +185,9 @@ def parse_phone (sphone):
     if phone and config.backend_phone_format == 'intl':
         phone = '+' + config.country_code + phone[1:]
     return phone
+
+def conn_is_banned(conn):
+    return conn.identity[-9:] in config.banned_phones
 
 
 
